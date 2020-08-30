@@ -1,4 +1,5 @@
 const Discord= require('discord.js');
+let config= require('./config.json');
 const client= new Discord.Client();
 
 client.once('ready', ()=>{
@@ -11,4 +12,4 @@ client.on('message', msg => {
     }
 });
 
-client.login('NTA3MDI0MzU0ODc4Njg1MjA1.W9kZOg.F3sSqI6kKDqHYyCQiQcxWFpI7OU');
+client.login(process.env.VSPAM_BOT_TOKEN);
