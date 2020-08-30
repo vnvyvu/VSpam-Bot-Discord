@@ -6,8 +6,8 @@ client.once('ready', ()=>{
     console.log('ready');
 });
 
-client.on('message', msg => {
-    if(msg.content === '!vspam'){
+client.on('message', (...args) => {
+    if(args.content === `${config.prefix}`){
         msg.channel.send('OMG!That you!');
     }
 });
