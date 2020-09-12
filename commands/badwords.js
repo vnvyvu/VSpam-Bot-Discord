@@ -35,7 +35,7 @@ module.exports={
         }else send(msg, embed(guildConfigs.lang.BADWORDS_VIEW_TITLE, guildConfigs.lang.BADWORDS_VIEW.replace('%list%', '||'+guildConfigs.badwords.join(', '))+' ||', 7506394), {'timeoutSent': guildConfigs.badwords.length*100+12000});
     },
     descriptions: function(guildConfigs){
-        return "\n∘ ``"+guildConfigs.prefix+this.name+"`` - Show a list of forbidden words\n∘ ``"+guildConfigs.prefix+this.name+" add [words]`` - Add more words to list\n∘ ``"+guildConfigs.prefix+this.name+" remove [words]`` - Remove words from list"
+        return "\n∘ ``"+guildConfigs.prefix+this.name+"`` - Show a list of forbidden words\n∘ ``"+guildConfigs.prefix+this.name+" add [words]`` - Add more words to list\n∘ ``"+guildConfigs.prefix+this.name+" remove [words]`` - Remove words from list";
     },
     fields: function(guildConfigs){
         return [

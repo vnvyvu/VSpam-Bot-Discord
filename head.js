@@ -1,4 +1,4 @@
-let Discord, send, warn, embed, bot, {profane, isProfane}= require('./lib/profane.js');
+let Discord, send, warn, embed, bot, Profane= require('./lib/profane.js');
 const MongoClient=require('mongodb').MongoClient
 require('dotenv').config();
 module.exports={
@@ -73,13 +73,15 @@ module.exports={
     },
     //Execute check profane
     'profane':async (guildConfigs, msg, warns)=>{
+        let check=new Profane({firstLetter: true});
+        check.addWords(...guildConfigs.badwords);
         if(guildConfigs.settings.PROFANE_CHANNELS.includes(msg.channel.id)) return;
         //Check profane
-        if(isProfane(msg.content, guildConfigs.badwords)){
+        if(check.isProfane(msg.content)){
             //delete profane
             msg.delete();
             //bot send warn message
-            send(msg, embed(guildConfigs.lang.PROFANE_NOTIFY_TITLE, guildConfigs.lang.PROFANE_NOTIFY.replace('%tag%', msg.author.toString()).replace('%msg%', profane(msg.content, guildConfigs.badwords)).replace('%times%', guildConfigs.settings.WARN_LIMIT), 16426522), {deleteMsg: false});
+            send(msg, embed(guildConfigs.lang.PROFANE_NOTIFY_TITLE, guildConfigs.lang.PROFANE_NOTIFY.replace('%tag%', msg.author.toString()).replace('%msg%', check.clean(msg.content)).replace('%times%', guildConfigs.settings.WARN_LIMIT), 16426522), {deleteMsg: false});
             //warn process
             warn(guildConfigs, msg, warns);
         }

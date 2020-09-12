@@ -1,4 +1,3 @@
-const { BitField } = require('discord.js');
 let {fs, Discord, bot, send, client, run, profane, nomedia, spam, embed} = require('./head.js');
 require('dotenv').config();
 
@@ -79,9 +78,10 @@ bot.on('message',async msg => {
     //Message normalize
     msg.content=msg.content.trim();
     //Check inactive channels
-    if(msg.content.indexOf(guildConfigs.prefix)==0){//Is message contains prefix at start!?
-        let args = msg.content.slice(guildConfigs.prefix.length).split(/ +/g);//Remove prefix and split args
-        if(bot.commands[args[0].toLocaleLowerCase()]){//Is command list contains command from message?
+    if(msg.content.toLocaleLowerCase().indexOf(guildConfigs.prefix)==0){//Is message contains prefix at start!?
+        let args = msg.content.slice(guildConfigs.prefix.length).trim().split(/ +/g);//Remove prefix and split args
+        args[0]=args[0].toLocaleLowerCase();
+        if(bot.commands[args[0]]){//Is command list contains command from message?
             //Is command allow member to use? and Adminitrator can use all commands
             if(args[0]=='help') args.push(bot.commands);
             if(msg.member.hasPermission('ADMINISTRATOR')) bot.commands[args[0]].execute(guildConfigs, msg, args);
