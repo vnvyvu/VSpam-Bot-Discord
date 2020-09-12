@@ -9,11 +9,10 @@ module.exports={
     execute: function(guildConfigs, msg, args){
         if(isWaiting(guildConfigs, msg, this)) return;
         let process=async()=>{//use sync
-            let fetched, c=0, check=0;
+            let c=0, check=0;
             do{
                 check=c;
-                fetched=await msg.channel.messages.fetch({limit: 100});//get messages
-                c+=await msg.channel.bulkDelete(fetched, true).then(dels=>dels.size);//delete messages
+                c+=await msg.channel.bulkDelete(100, true).then(dels=>dels.size);//delete messages
             }while(check!=c);
             return c;
         };
