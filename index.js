@@ -44,16 +44,16 @@ bot.on('guildCreate', async guild => {
     }, 'settings':{
         "IGNORE_ROLES": [],
         "NOMEDIA_CHANNELS": [],
-        "NOMEDIA_TIMEOUT": 5*60,
+        "NOMEDIA_TIMEOUT": 300,
         "PROFANE_CHANNELS": [],
         "SPAM_CHANNELS": [],
         "MAX_MESSAGES": 5,
         "DUPLICATE_MESSAGES": 3,
         "INTERVAL": 5,
         "WARN_LIMIT": 5,
-        "WARN_COOLDOWN": 3*60,
+        "WARN_COOLDOWN": 180,
         "PENALTY_ROLE": "",
-        "PENALTY_COUNTDOWN": 60*60,
+        "PENALTY_COUNTDOWN": 3600,
     }});
     await client.db(process.env.DB_NAME).collection('guild').insertOne(temp);
 });

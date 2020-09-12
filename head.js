@@ -50,7 +50,7 @@ module.exports={
             //Add penalty role
             msg.member.roles.add(penaltyRole).then(()=>{
                 //Send penalty message
-                send(msg, embed(guildConfigs.lang.PENALTY_NOTIFY_TITLE, guildConfigs.lang.PENALTY_NOTIFY.replace('%tag%', msg.member.toString()).replace('%penalty%', penaltyRole).replace('%time%', guildConfigs.settings.PENALTY_COUNTDOWN), 15746887), {deleteMsg: false, timeoutSent: 30*1000});
+                send(msg, embed(guildConfigs.lang.PENALTY_NOTIFY_TITLE, guildConfigs.lang.PENALTY_NOTIFY.replace('%tag%', msg.member.toString()).replace('%penalty%', penaltyRole).replace('%time%', guildConfigs.settings.PENALTY_COUNTDOWN), 15746887), {deleteMsg: false, timeoutSent: 30000});
                 //Clear old interval
                 if(warns[[guildConfigs['_id'], msg.author.id]].id) clearInterval(warns[[guildConfigs['_id'], msg.author.id]].id);
                 //Cooldown penalty

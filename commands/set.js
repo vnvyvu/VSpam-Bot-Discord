@@ -49,7 +49,7 @@ module.exports={
                     fields[fields.length-1]=temp;
                 }
             }
-            send(msg, embed('Command Prompt', "You may have used the **wrong syntax** or **wrong input data**!?\nTry this: ``"+guildConfigs.prefix+this.name+" "+this.usage+"``\n\n**Key-Content**\n", '#7289da', fields), {timeoutSent: 120*1000});
+            send(msg, embed('Command Prompt', "You may have used the **wrong syntax** or **wrong input data**!?\nTry this: ``"+guildConfigs.prefix+this.name+" "+this.usage+"``\n\n**Key-Content**\n", '#7289da', fields), {timeoutSent: 120000});
         }
     },
     descriptions: function(guildConfigs){

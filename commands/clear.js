@@ -8,18 +8,16 @@ module.exports={
     allowMember: false, 
     execute: function(guildConfigs, msg, args){
         if(isWaiting(guildConfigs, msg, this)) return;
-        let process=async (callback)=>{//use sync
-            let fetched, c=0;
+        let process=async()=>{//use sync
+            let fetched, c=0, check=0;
             do{
+                check=c;
                 fetched=await msg.channel.messages.fetch({limit: 100});//get messages
-                //filter old messages, discord not allow to delete them
-                fetched=await fetched.filter(m=>m.createdTimestamp+14*86400000>Date.now());
-                c+=await fetched.size;//count messages
-                await msg.channel.bulkDelete(fetched);//delete messages
-            }while(fetched.size>1);
-            callback(c);
+                c+=await msg.channel.bulkDelete(fetched, true).then(dels=>dels.size);//delete messages
+            }while(check!=c);
+            return c;
         };
-        process((c)=>send(msg, embed(guildConfigs.lang.CMD_CLEAR_SUCC_TITLE, guildConfigs.lang.CMD_CLEAR_SUCC.replace('%amount%', c), 4437377), {deleteMsg: false}));
+        process().then(c=>send(msg, embed(guildConfigs.lang.CMD_CLEAR_SUCC_TITLE, guildConfigs.lang.CMD_CLEAR_SUCC.replace('%amount%', c), 4437377), {deleteMsg: false}));
     },
     descriptions: function(guildConfigs){
         return "\n∘ ``"+guildConfigs.prefix+this.name+"`` - Delete all messages in channel but **only deleted messages sent in the last 2 weeks**\nWhy? Because Discord doesn't allow to do that.\nIf you really want to delete all messages, you can use **duplicate function** to keep channel's config and then, delete old channel";
