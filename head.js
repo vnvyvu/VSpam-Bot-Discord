@@ -150,7 +150,37 @@ module.exports={
         WARN_COOLDOWN: {'func': 'Warn', 'details': 'The amount of time since the member was last warned, after that time the number of the member\'s warning returned to 0', 'unit': 'seconds'},
         PENALTY_ROLE: {'func': 'Penalty', 'details': 'The role will be similar to penalty, after  *PENALTY_COUNTDOWN* period, the penalty is done.', 'unit': 'role'},
         PENALTY_COUNTDOWN: {'func': 'Penalty', 'details': 'Penalty period', 'unit': 'seconds'},
-    }
+    },
+    defaultConfigs: (guild)=>{return {'_id': guild.id,'prefix': 'v!', 'badwords': [], 'lang': {
+        "PROFANE_NOTIFY": "%tag% said: %msg%\nYou will be penalized for profaning more than **%times%** times\n See badwords list to avoid!\n",
+        "PROFANE_NOTIFY_TITLE": "Dirty Man",
+        "SPAM_NOTIFY": "%tag% You got 1 warn for your spam messages",
+        "SPAM_NOTIFY_TITLE": "Sewing Machine",
+        "PENALTY_NOTIFY": "%tag% got %penalty% for **%time%s**",
+        "PENALTY_NOTIFY_TITLE": "Jail",
+        "CMD_CLEAR_SUCC": "**%amount%** messages deleted! (Sorry, I can't delete messages older than 2 weeks)",
+        "CMD_CLEAR_SUCC_TITLE": "Recycling",
+        "WAITING": "Please wait **%time%s** to use again!",
+        "WAITING_TITLE": "Wait Me",
+        "BADWORDS_VIEW": "%list%",
+        "BADWORDS_VIEW_TITLE": "Bad Words",
+        "NOMEDIA_NOTIFY": "%tag% You're restricted from sending messages containing **images/videos** in this channel\nYou must to delete it after **%minute%** minutes!",
+        "NOMEDIA_NOTIFY_TITLE": "Notice Me"
+        
+    }, 'settings':{
+        "IGNORE_ROLES": [],
+        "NOMEDIA_CHANNELS": [],
+        "NOMEDIA_TIMEOUT": 300,
+        "PROFANE_CHANNELS": [],
+        "SPAM_CHANNELS": [],
+        "MAX_MESSAGES": 6,
+        "DUPLICATE_MESSAGES": 4,
+        "INTERVAL": 5,
+        "WARN_LIMIT": 5,
+        "WARN_COOLDOWN": 180,
+        "PENALTY_ROLE": "",
+        "PENALTY_COUNTDOWN": 3600,
+    }}},
 };
 //Trash function, 
 function maxDup(arr){

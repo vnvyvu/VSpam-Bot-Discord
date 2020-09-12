@@ -1,4 +1,4 @@
-let {fs, Discord, bot, send, client, run, profane, nomedia, spam, embed} = require('./head.js');
+let {fs, Discord, bot, send, client, run, profane, nomedia, spam, embed, defaultConfigs} = require('./head.js');
 require('dotenv').config();
 
 //Init commands: Read from "commands" folder
@@ -21,43 +21,6 @@ run(()=>{
 //Init warn, msg contain image/video
 let warns=new Discord.Collection(), noMediaInterval=new Discord.Collection(), spamMap=new Discord.Collection();
 
-//Bot first join
-bot.on('guildCreate', async guild => {
-    //Init prefix
-    let temp;
-    guilds.push(temp={'_id': guild.id,'prefix': 'v!', 'badwords': [], 'lang': {
-        "PROFANE_NOTIFY": "%tag% said: %msg%\nYou will be penalized for profaning more than **%times%** times\n See badwords list to avoid!\n",
-        "PROFANE_NOTIFY_TITLE": "Dirty Man",
-        "SPAM_NOTIFY": "%tag% You got 1 warn for your spam messages",
-        "SPAM_NOTIFY_TITLE": "Sewing Machine",
-        "PENALTY_NOTIFY": "%tag% got %penalty% for **%time%s**",
-        "PENALTY_NOTIFY_TITLE": "Jail",
-        "CMD_CLEAR_SUCC": "**%amount%** messages deleted! (Sorry, I can't delete messages older than 2 weeks)",
-        "CMD_CLEAR_SUCC_TITLE": "Recycling",
-        "WAITING": "Please wait **%time%s** to use again!",
-        "WAITING_TITLE": "Wait Me",
-        "BADWORDS_VIEW": "%list%",
-        "BADWORDS_VIEW_TITLE": "Bad Words",
-        "NOMEDIA_NOTIFY": "%tag% You're restricted from sending messages containing **images/videos** in this channel\nYou must to delete it after **%minute%** minutes!",
-        "NOMEDIA_NOTIFY_TITLE": "Notice Me"
-        
-    }, 'settings':{
-        "IGNORE_ROLES": [],
-        "NOMEDIA_CHANNELS": [],
-        "NOMEDIA_TIMEOUT": 300,
-        "PROFANE_CHANNELS": [],
-        "SPAM_CHANNELS": [],
-        "MAX_MESSAGES": 6,
-        "DUPLICATE_MESSAGES": 4,
-        "INTERVAL": 5,
-        "WARN_LIMIT": 5,
-        "WARN_COOLDOWN": 180,
-        "PENALTY_ROLE": "",
-        "PENALTY_COUNTDOWN": 3600,
-    }});
-    await client.db(process.env.DB_NAME).collection('guild').insertOne(temp);
-});
-
 //guild delete
 bot.on('guildDelete', async guild => {
     await client.db(process.env.DB_NAME).collection('guild').deleteOne({'_id': guild.id});
@@ -69,7 +32,13 @@ bot.on('message',async msg => {
     //Check author is a bot
     if(msg.author.bot||msg.channel.type=='dm') return;
     //Get configs of this guild
-    let guildConfigs=await guilds.filter((c)=>c['_id']==msg.guild.id)[0];
+    let guildConfigs=await guilds.find((c)=>c['_id']==msg.guild.id);
+    if(!guildConfigs) {
+        let temp=await defaultConfigs(msg.guild);
+        guilds.push(temp);
+        guildConfigs=temp;
+        await client.db(process.env.DB_NAME).collection('guild').insertOne(temp);
+    }
     //User fogot prefix
     if(msg.mentions.users.array().includes(bot.user)){
         send(msg, embed('Hula!', "My prefix is: ``"+guildConfigs.prefix+"``", '#6ff56c'));
