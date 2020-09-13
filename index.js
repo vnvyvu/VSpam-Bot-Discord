@@ -1,6 +1,5 @@
 let {fs, Discord, bot, send, client, run, profane, nomedia, spam, embed, defaultConfigs} = require('./head.js');
 require('dotenv').config();
-
 //Init commands: Read from "commands" folder
 bot.commands=new Discord.Collection();
 let commandFiles=fs.readdirSync('./commands').filter((f=>f.endsWith('.js'))), command;

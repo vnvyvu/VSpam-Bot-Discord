@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/vnvyvu/VSpam-Bot-Discord#readme",
   "dependencies": {
-    "discord.js": "^12.3.1",
+    "discord.js-light": "^3.2.8",
     "dotenv": "^8.2.0",
-    "mongodb": "^3.6.0"
+    "mongodb": "^3.6.2"
   }
 }

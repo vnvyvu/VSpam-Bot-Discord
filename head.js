@@ -5,9 +5,9 @@ module.exports={
     //Load file utils
     'fs': fs=require('fs'),
     //Load Discord lib
-    'Discord': Discord=require('discord.js'),
+    'Discord': Discord=require('discord.js-light'),
     //Load Bot object
-    'bot': bot=new Discord.Client(),
+    'bot': bot=new Discord.Client({cacheGuilds: true, cacheChannels: true, cacheRoles: true,}),
     //Send message to textchannel
     'send': send=async (msg, message, options)=>{
         //Make sure the outgoing message will always be embed
